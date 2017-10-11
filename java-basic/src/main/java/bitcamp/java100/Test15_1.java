@@ -23,3 +23,4 @@ public class Test15_1 {
         System.out.printf("10 %% 20 = %d\n", 10 % 20);
     }
 }
+ 
