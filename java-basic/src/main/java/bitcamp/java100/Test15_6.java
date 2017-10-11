@@ -18,7 +18,7 @@ public class Test15_6 {
         //= 14 - 2 + 7
         //= 12 + 7
         //= 19
-        System.out.println(r);
+        System.out.println(r); 
 
 // 괄호()는 *, / 보다 우선한다.
         r = (2 + 3) * 4;
