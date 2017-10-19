@@ -18,8 +18,7 @@ public class Test19_4 {
     	
     	Socket s;
     	ServerSocket ss;
-    	URL url;
-    	
+    	URL url;    	
     }
     
 }
