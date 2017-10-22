@@ -5,7 +5,7 @@
 //   String 클래스에서 제공해주는 메서드를 사용하여 char 배열 메모리를 다룬다.
 //
 
-package bitcamp.java100;
+package ex8;
 
 import java.io.Console;
 import java.util.Scanner;
@@ -14,33 +14,21 @@ import java.util.Scanner;
 public class Test21_8 {
 
     public static void main(String[] args) {
-    	class Student{
-    		String name;
-            String email ;
-            int tel;
-    	}
+    	
     	Console console = System.console();
+    	
+    	if (console == null) {
+    		System.err.println("콘솔을 지원하지 않습니다.");
+    		System.exit(1);
+    	}
         
-        if (console == null) {
-            System.err.println("콘솔을 지원하지 않습니다.");
-            System.exit(1); // JVM을 종료한다.
-        }
-        Student s = new Student();
+    	String name = console.readLine("이름은? ");
+    	String email = console.readLine("이메일? ");
+    	String tel = console.readLine("전화는? ");
     	
-    	s.name = console.readLine("이름? ");
-    	s.email = console.readLine(console.readLine("이메일? "));
-    	s.tel = Integer.parseInt(console.readLine("전화번호? "));
-    	
-    	Scanner keyScan = new Scanner(System.in);
-    	System.out.print("계속 입력하시겠습니까?");
-        String line = keyScan.nextLine();	
-    	if (s) {//만약 계속 입력한다면            
-    		return;
-        } else { //계속 입력하지 않는다면
-        	
-        }
-    	
-    	System.out.println("----------------------------------------------------");
+    	System.out.println(name);
+    	System.out.println(email);
+    	System.out.println(tel);
     	
     	
     }
