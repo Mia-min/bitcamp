@@ -12,3 +12,4 @@ public class MyClass {
 	//new 연산자를 사용해 인스턴스 필드를 만들 때 사용된다.
 	int v2 = 200;  
 }
+ 
