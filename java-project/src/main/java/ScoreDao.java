@@ -1,21 +1,24 @@
 public class ScoreDao {
-	static Score[] scores = new Score[10000];
-	static int cursor = 0;
+	//인스턴스 변수로 정의한다.
+	//인스턴스 변수는 new 연산자를 사용하여 인스턴스를 만들 때 생성된다.
+	Score[] scores = new Score[10000];
+	int cursor = 0;
 
-	static void add(Score score) {
-		if (cursor == scores.length) {
+	//인스턴스 변수를 다루는 메서드는 인스턴스 메서드로 전환하는 것이 사용하기 편하다.
+	void add(Score score) {
+		if (this.cursor == this.scores.length) {
 			System.err.println("최대 저장 개수를 초과하였습니다.");
 			return;
 		}
-		scores[cursor++] = score;
+		this.scores[this.cursor++] = score;
 	}
 
-	static int size() {
-		return cursor;
+	int size() {
+		return this.cursor;
 	}
 
-	static Score get(int index) {
-		if (index < 0 || index >= cursor) {
+	Score get(int index) {
+		if (index < 0 || index >= this.cursor) {
 			return null;
 		}
 		return scores[index];

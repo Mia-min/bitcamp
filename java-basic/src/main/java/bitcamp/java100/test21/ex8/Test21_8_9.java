@@ -3,8 +3,6 @@ package bitcamp.java100.test21.ex8;
 
 import java.io.Console;
 
-import javax.management.RuntimeErrorException;
-
 public class Test21_8_9 {
 
 	static Console console;
