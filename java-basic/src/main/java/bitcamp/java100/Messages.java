@@ -1,4 +1,4 @@
-package main.java.bitcamp.java100;
+package bitcamp.java100;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

@@ -1,7 +1,6 @@
 package bitcamp.java100;
 
 import java.io.Console;
-import java.util.Scanner;
 
 public class Test21_6_3 {
 	// ## 키보드로부터 입력 받기 - 연습2

@@ -30,16 +30,16 @@ public class Test15_11_3 {
     	final int OTHER_READE = 0X0002; //0b0010_0000_0000;
     	final int OTHER_EXE = 0X0001; //0b0010_0000_0000;
     	// => 사용 권한 검사
-        System.out.print((P1 & DIRECTORY) == DIRECTORY ? "d" : "-");
-        System.out.print((P1 & OWNER_READ) == OWNER_READ ? "r" : "-");
-        System.out.print((P1 & OWNER_WRITE) == OWNER_WRITE ? "w" : "-");
-        System.out.print((P1 & OWNER_EXE) == OWNER_EXE ? "x" : "-");
-        System.out.print((P1 & GR0UP_READ) == GR0UP_READ ? "r" : "-");
-        System.out.print((P1 & GR0UP_EXE) == GR0UP_EXE ? "w" : "-");
-        System.out.print((P1 & GR0UP_WRITER) == GR0UP_WRITER ? "x" : "-");
-        System.out.print((P1 & OTHDER_WRITDE) == OTHDER_WRITDE ? "r" : "-");
-        System.out.print((P1 & OTHER_READE) == OTHER_READE ? "w" : "-");
-        System.out.print((P1 & OTHER_EXE) == OTHER_EXE ? "x" : "-");
+        System.out.print((p1 & DIRECTORY) == DIRECTORY ? "d" : "-");
+        System.out.print((p1 & OWNER_READ) == OWNER_READ ? "r" : "-");
+        System.out.print((p1 & OWNER_WRITE) == OWNER_WRITE ? "w" : "-");
+        System.out.print((p1 & OWNER_EXE) == OWNER_EXE ? "x" : "-");
+        System.out.print((p1 & GR0UP_READ) == GR0UP_READ ? "r" : "-");
+        System.out.print((p1 & GR0UP_EXE) == GR0UP_EXE ? "w" : "-");
+        System.out.print((p1 & GR0UP_WRITER) == GR0UP_WRITER ? "x" : "-");
+        System.out.print((p1 & OTHDER_WRITDE) == OTHDER_WRITDE ? "r" : "-");
+        System.out.print((p1 & OTHER_READE) == OTHER_READE ? "w" : "-");
+        System.out.print((p1 & OTHER_EXE) == OTHER_EXE ? "x" : "-");
         System.out.println();
     }
 }

@@ -8,10 +8,6 @@ public class Score {
     int[] subjects; 
     int sum;
     float aver;
-    
-    public Score() {
-		// TODO Auto-generated constructor stub
-	}
 
     //: ### 생성자 
     Score(String name, int kor, int eng, int math) {

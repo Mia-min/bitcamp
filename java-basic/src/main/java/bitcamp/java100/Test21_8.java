@@ -5,7 +5,7 @@
 //   String 클래스에서 제공해주는 메서드를 사용하여 char 배열 메모리를 다룬다.
 //
 
-package ex8;
+package bitcamp.java100;
 
 import java.io.Console;
 import java.util.Scanner;

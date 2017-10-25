@@ -11,7 +11,7 @@ public class Test15_14 {
     	System.out.println(c1);
     	
     	int c2 = 44032;
-    	System.out.printl(c2);
+    	System.out.println(c2);
     	
     }
 }
