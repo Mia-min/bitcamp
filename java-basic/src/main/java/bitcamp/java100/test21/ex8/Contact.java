@@ -5,4 +5,3 @@ public class Contact {
 	String email;
 	String tel;
 }
-

@@ -7,12 +7,6 @@ public class Test21_8_9 {
 
 	static Console console;
 
-	static class Contact {
-		String name;
-		String email;
-		String tel;
-	}
-
 	static void printContacts() {
 		for (int i = 0; i < ContactArray.size(); i++) {
 			Contact contact = ContactArray.get(i);// i번째에 있는 연락처 정보를 가져와라
