@@ -1,22 +1,20 @@
-// 다형성(polymorphism) - 다형적 변수의 형변환
+// 다형성(polymorphism) - 다형적 변수의 형변환 II
 // 
 package bitcamp.java100.ch08.ex2;
 
-public class Test3 {
+public class Test4 {
 
     public static void main(String[] args) {
         
-        Car c = new Sedan();
+        Car c = new Car();
         c.model = "티코";
         c.capacity = 4;
         c.enginType = 1;
         c.cylinder = 4;
         c.valve = 16;
         
-        // c는 실제 Sedan 객체를 가리키고 있다.
-        // Sedan 객체는 위의 다섯개 변수 외에 auto와 sunroof가 추가돼 있다.
-        // 이 메모리를 사용하려면 Car 타입의 변수로는 불가능하다.
-        // 원래 타입으로 바꾼 후 사용하라!
+        // 실제 Sedan이 아닌데 Sedan이라고 속이지 말라!
+        // 컴파일러는 속일 수 있어도, 어차피 JVM이 실행할 때 오류를 발생시킬 것이다.
         Sedan c2 = (Sedan)c;
         c2.auto = true;
         c2.sunroof = false;
