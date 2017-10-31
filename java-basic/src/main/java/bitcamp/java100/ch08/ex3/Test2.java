@@ -15,7 +15,7 @@ public class Test2 {
 		 
 			s.setNo(Prompts.inputInt("번호? "));
 			
-			s.setNmae(Prompts.inputString("이름?"));
+			s.setName(Prompts.inputString("이름?"));
 			
 			s.setKor(Prompts.inputInt("국어? "));
 

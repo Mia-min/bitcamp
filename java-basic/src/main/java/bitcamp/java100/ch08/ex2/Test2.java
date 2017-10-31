@@ -62,7 +62,7 @@ public class Test2 {
         
         // 만약 다음과 같이 서브 클래스의 레퍼런스가 수퍼 클래스의 객체를 가리킬 수 있다면,
         // 어떤 상황에 빠질 수 있는지 고민해보자!
-        c = new Vehicle(); // 이것이 가능하다고 가정해보자!
+        //c = new Vehicle(); // 이것이 가능하다고 가정해보자!
         
         // c는 분명히 Vehicle 객체를 가리킨다.
         // Vehicle 객체에는 model과 capacity 변수만 있다.
