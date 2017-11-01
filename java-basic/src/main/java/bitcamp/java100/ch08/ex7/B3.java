@@ -9,6 +9,6 @@ public class B3 extends B{
 	//자바는 이런식의 잦은 오류를 방지하기 위해 특별한 주석을 제공한다.
 	//오버라이딩 하는 메서드 앞에 @override 주석을 붙이면 된다.
 	
-	@Override // 이 주석은 개발자가(너가) 오버라이딩을 제대로 하는지 미리 검사한다.
-	void mI(int a, String s) {}
+	//@Override // 이 주석은 개발자가(너가) 오버라이딩을 제대로 하는지 미리 검사한다.
+	//void mI(int a, String s) {}
 }

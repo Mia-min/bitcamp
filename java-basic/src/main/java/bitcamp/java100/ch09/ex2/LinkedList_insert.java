@@ -47,18 +47,18 @@ public class LinkedList_insert {
 	}
 
 	public void insert(int index, Object obj) {
-		if (index < 0 || index >= len)
-			return;
+		if (index < 0 || index >= len)//만약 인덱스가 0보다 작거나 전체개수보다 크거나 같다면
+			return; //되돌려라
 
-		Box box = new Box();
-		box.value = obj;
+		Box box = new Box();//박스를 하나 만들어준다.
+		box.value = obj;//obj변수 값을 박스의 값에 넣고
 
-		len++;
+		len++;//개수를 증가시켜라
 
-		if(index == 0) {
-			box.next = head;
-			head = box;
-			return;
+		if(index == 0) {//만약 인덱스가 0과 같다면
+			box.next = head;//헤드는 박스의 다음값이다
+			head = box;//그 박스도 헤드라 칭하는데
+			return;//반복하지 말아라
 		}
 		
 		Box prev = head;
