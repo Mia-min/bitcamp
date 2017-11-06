@@ -2,7 +2,7 @@
 //: - 모든 필드에 대해 외부 접근을 차단한다.
 //:   단 자식 클래스에서는 직접 접근할 수 있게 허락한다.
 //: 
-package studentScore.java100;
+package studentScore.domain;
 
 public class Score {  
     
@@ -75,9 +75,4 @@ public class Score {
         this.aver = this.sum / 3f;
     }
     
-	// public void input
-
-	//upDate
-
-	//printDetail
 }
