@@ -6,11 +6,22 @@ public class Prompts {
 
 	static Scanner keyScan = new Scanner(System.in);
 
+	@Deprecated
 	public static String input(String message) {
 		System.out.print(message);
 		return keyScan.nextLine();
 	}
+	
+	public static String inputInt(String message, Object...values) {
+		System.out.printf(message, values);
+		return keyScan.nextLine();
+	}
 
+	public static String inputString(String message, Object...values) {
+		System.out.printf(message, values);
+		return keyScan.nextLine();
+	}
+	
 	public static boolean confirm(String message) {
 		System.out.print(message);
 		String response = keyScan.nextLine().toLowerCase();

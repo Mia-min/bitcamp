@@ -47,41 +47,11 @@ public class Member {
 
 	// : > 전체 공개할 메서드는 public으로 선언한다.
 
-	public void update() {
-		Scanner keyScan = new Scanner(System.in);
+	//upDate
 
-		System.out.printf("이름?(%s) ", this.name);
-		String name = keyScan.nextLine();
-		if(name.isEmpty()) {
-			name = this.name;
-		}
+	//printDetail
 
-		System.out.printf("암호?(%s) ", this.pw);
-		String pw = keyScan.nextLine();
-		if(pw.isEmpty()) {
-			pw = this.pw;
-		}
-
-		if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
-			this.name = name;
-			this.pw = pw;
-			System.out.println("변경하였습니다.");
-
-		} else {
-			System.out.println("변경을 취소하였습니다.");
-		}
-	}
-
-	public void printDetail() {
-		System.out.printf("이름: %s\n", this.name);
-		System.out.printf("이메일: %s\n", this.email);
-		System.out.printf("암호: %s\n", this.pw);
-
-	}
-
-	public void print() {
-		System.out.printf("%s, %s\n", this.name, this.email);
-	}
+	//print
 
 	public void input() {
 		Scanner keyScan = new Scanner(System.in);
