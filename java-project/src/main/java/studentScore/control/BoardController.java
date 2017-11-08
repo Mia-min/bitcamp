@@ -3,11 +3,14 @@ package studentScore.control;
 import java.sql.Date;
 import java.util.Iterator;
 
-import studentScore.domain.Board;
-import studentScore.util.Prompts;
+import java100.app.domain.Board;
+import java100.app.util.Prompts;
 
-public class BoardController extends GenericController<Board>{
+public class BoardController extends GenericController<Board> {
     
+    // 수퍼 클래스 GenericController에서 상속 받은 메서드를 
+    // 재정의하기 때문에 오버라이딩을 검증하도록 애노테이션을 붙인다.
+    @Override
     public void execute() {
         loop:
         while (true) {
