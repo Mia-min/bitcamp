@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.management.RuntimeErrorException;
-
 public class Test3 {
 
 	static void m1(int i) throws RuntimeException, Error, ArithmeticException, IndexOutOfBoundsException {

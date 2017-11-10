@@ -1,49 +1,43 @@
-//: ## ver 27
-//: - 컨트롤러 클래스들의 공통 점을 찾아 일반화시켜라!
-//: - 즉 상속의 generalization을 수행하라!
+//: ## ver 32
+//: - 사용자가 입력한 데이터를 파일에 저장하여 다음에 프로그램을 실행할 때도
+//:   유지되게 하라!
 //: - 학습목표
-//:   - 상속의 generalization을 이용해 수퍼 클래스를 정의하는 방법을 익힌다.
-//:   - 수퍼 클래스를 정의했을 때의 이점을 이해한다.
+//:   - File API를 활용하는 방법을 연습한다
+//: 
 //: 
 package studentScore;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import java100.app.control.BoardController;
-import java100.app.control.GenericController;
-import java100.app.control.MemberController;
-import java100.app.control.ScoreController;
+import studentScore.control.BoardController;
+import studentScore.control.Controller;
+import studentScore.control.MemberController;
 import studentScore.control.RoomController;
+import studentScore.control.ScoreController;
  
-// 1) 상속의 generalization
-//    => ScoreController, MemberController, BoardController의 
-//       공통 변수나 메서드를 추출하여 클래스를 정의하고,
-//       그 클래스를 상속 받는다.
-//    => GenericController 클래스 정의
-//
-// 2) Map을 이용하여 객체 보관
-//    => 컨트롤러 클래스를 Map 객체에 보관하여 필요할 때 꺼내 쓴다.
-//    => 다형적 변수를 이용하여 GenericController의 하위 클래스에 대해
-//       execute()를 호출한다.
-//    => 이렇게 되면 새 컨트롤러를 추가하더라도 doGo() 메서드를 
-//       변경할 필요가 없다.
-//
+// 프로그램을 실행할 때 파일에서 메모리로 데이터를 로딩한다.
+// 프로그램을 종료할 때 메모리에 있는 데이터를 파일로 저장한다.
+// 1) 각 컨트롤러 클래스에 파일을 저장하고 파일을 로딩하는 기능을 추가한다.
+// => save(), load() 메서드 추가
+// 
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     
-    static HashMap<String,GenericController<?>> controllerMap = 
+    // 이제 HashMap에 보관하는 값은 Controller 규칙을 준수한 객체이다.
+    static HashMap<String,Controller> controllerMap = 
             new HashMap<>();
     
     public static void main(String[] args) {
         
         // go 명령어를 수행할 컨트롤러를 등록한다.
-        controllerMap.put("1", new ScoreController());
-        controllerMap.put("2", new MemberController());
-        controllerMap.put("3", new BoardController());
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
         
-        controllerMap.put("4", new RoomController());
+        controllerMap.put("4", new RoomController"./data/room.csv"());
         
         loop:
         while (true) {
@@ -70,20 +64,27 @@ public class App {
     
     private static void doGo(String menuNo) {
         
-        GenericController<?> controller = controllerMap.get(menuNo);
+        // controllerMap에 저장된 컨트롤러 객체는 
+        // Controller 규칙을 따르는 객체이기 때문에
+        // 레퍼런스를 선언할 때도 Controller 레퍼런스를 사용하라!
+        Controller controller = controllerMap.get(menuNo);
         
         if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
             return;
         }
         
+        // App 클래스는 컨틀롤러 객체를 사용할 때
+        // Controller 규칙에 정의된 메서드를 호출할 뿐이다!
+        // 이 규칙을 따르는 객체라면 누구를 상속 받는지 상관없이
+        // 호출할 수 있다.
+        // 이것이 인터페이스 문법을 사용하는 이유이다.
+        // 그 자격을 갖춘 객체라면 상속과 상관없이 호출할 수 있다.
+        // 사용하는 객체의 범위를 더 확대시키는 문법이다.
+        // 훨씬 코드 확장을 유연하게 도와준다.
+        // 이전의 방식이라면 GenericController의 서브 클래스만 
+        // 가능하기 때문에 너무 협소적이었다.
         controller.execute();
-        
-        // 이제 새로운 컨트롤러가 추가되더라도 
-        // 이 메서드를 변경할 필요가 없다.
-        // 그냥 main() 시작 부분에 새로 추가한 컨트롤러를
-        // Map에 등록하기만 하면 된다.
-        // 새로운 기능이 추가되더라도 코드 변경을 최소화시키는 기법이다.
     }
 
     private static void doHelp() {
@@ -97,6 +98,7 @@ public class App {
         System.out.println("1 성적관리");
         System.out.println("2 회원관리");
         System.out.println("3 게시판");
+        System.out.println("4 강의실");
     }
 
     private static void doError() {
@@ -104,13 +106,13 @@ public class App {
     }
 
     private static void doQuit() {
+        Collection<Controller> controls = controllerMap.values();
+        for (Controller control : controls) {
+            control.destroy(); // 각 컨트롤러에게 마무리 기회를 준다.
+        }
         System.out.println("프로그램을 종료합니다.");
     }
 
-
-
-
-        
 }
 
 

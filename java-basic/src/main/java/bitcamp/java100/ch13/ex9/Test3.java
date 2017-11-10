@@ -3,7 +3,7 @@ package bitcamp.java100.ch13.ex9;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Test2 {
+public class Test3 {
 
 	static class Score {
 		String name;

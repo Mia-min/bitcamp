@@ -1,15 +1,65 @@
 package studentScore.control;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import studentScore.domain.Room;
 import studentScore.util.Prompts;
 
-public abstract class RoomController extends GenericController<Room> {
+public class RoomController extends ArrayList<Room> implements Controller {
 
-	public void execution() {
+	Scanner keyScan = new Scanner(System.in);
+
+	private String dataFilePath;
+	
+	public RoomController(String dataFilePath) {
+		this.dataFilePath = dataFilePath;
+		this.init();
+	}
+	@Override
+	public void destroy() {
+
+		try (FileWriter out = new FileWriter(this.dataFilePath);) {
+			for (Room room : this) {
+				out.write(room.toCSVString() + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+	}
+
+	@Override
+	public void init() {
+
+		try (FileReader in = new FileReader(this.dataFilePath); 
+				Scanner lineScan = new Scanner(in);) {
+
+			String csv = null;
+			while (lineScan.hasNextLine()) {
+				csv = lineScan.nextLine();
+				try {
+					this.add(new Room(csv));
+				} catch (CSVFormatException e) {
+					System.err.println("CSV 데이터 형식 오류!");
+					e.printStackTrace();
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void execute() {
 		loop: while (true) {
-			System.out.print("강의실 관리> ");
+			System.out.print("강의실관리> ");
 			String input = keyScan.nextLine();
 
 			// 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
@@ -20,8 +70,6 @@ public abstract class RoomController extends GenericController<Room> {
 			case "add":
 				this.doAdd();
 				break;
-
-
 			case "delete":
 				this.doDelete();
 				break;
@@ -34,18 +82,15 @@ public abstract class RoomController extends GenericController<Room> {
 	}
 
 	private void doList() {
-        System.out.println("[강의실 목록]");
-        
-        Iterator<Room> iterator = list.iterator();
-        while (iterator.hasNext()) {
-        	Room room = iterator.next();
-            System.out.printf("%-4s, %s, %d\n",  
-            		room.getLocation(), 
-            		room.getName(),
-            		room.getCapacity());
-            
-        }
-    }
+		System.out.println("[강의실 목록]");
+
+		Iterator<Room> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Room room = iterator.next();
+			System.out.printf("%-4s, %s, %d\n", room.getLocation(), room.getName(), room.getCapacity());
+
+		}
+	}
 
 	private void doAdd() {
 		System.out.println("[강의실 등록]");
