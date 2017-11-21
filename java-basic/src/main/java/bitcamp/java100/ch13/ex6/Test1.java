@@ -1,9 +1,6 @@
 // 예외처리 문법정리 : 예외 클래스의 상속 관계와 catch 블록
 package bitcamp.java100.ch13.ex6;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Test1 {
