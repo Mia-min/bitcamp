@@ -1,7 +1,9 @@
-//: ## ver 40
-//: - DAO의 메서드가 호출될 때마다 Connection 객체를 생성하는 문제점 해결
+//: ## ver 46
+//: - 자동으로 인스턴스를 생성할 클래스에 대해 애노테이션으로 표시하라!
+//: - 프로그램을 실행할 때 애노테이션으로 표시된 클래스만 인스턴스를 생성하라!
 //: - 학습목표
-//:   - DBMS와의 연결을 효과적으로 관리하는 방법을 이해한다.
+//:   - 애노테이션을 활용하는 방법을 연습한다.
+//: 
 //:   
 package java100.app;
 
@@ -20,166 +22,155 @@ import java100.app.util.DataSource;
 
 public class App {
 
-	ServerSocket ss;
-	
-	ApplicationContext beanContainer;	
-	
-	void init() {
-		beanContainer = new ApplicationContext("./bin/application-context.properties");
-		
-		DataSource ds = new DataSource();
-		ds.setDriverClassName("come.mysql.jbc.Driver");
-		ds.setUrl("jdbc:mysql://3366/studydb");
-		ds.setUsername("study");
-		ds.setPassword("1111");
-		
-		beanContainer.addBean("mysqlDataSource", ds);
-		
-		beanContainer.injectDependency();
-		
-		/*
-		ScoreDaoImpl scoreDao = new ScoreDaoImpl();
-		scoreDao.setDataSource(ds);
-		
-		MemberDaoImpl memberDao = new MemberDaoImpl();
-		memberDao.setDataSource(ds);
-		
-		BoardDaoImpl boardDao = new BoardDaoImpl();
-		boardDao.setDataSource(ds);
-		
-		RoomDaoImpl roomDao = new RoomDaoImpl();
-		roomDao.setDataSource(ds);
-		
-		ScoreController scoreController = new ScoreController();
-		scoreController.setScoreDao(scoreDao);
-		scoreController.init();
-		ApplicationContext.addBean("/score", scoreController);
+    ServerSocket ss;
 
-		MemberController memberController = new MemberController();
-		memberController.setMemberDao(memberDao);
-		memberController.init();
-		ApplicationContext.addBean("/member", memberController);
+    // 빈 관리 컨테이너 객체
+    ApplicationContext beanContainer;
+    
+    void init() {
+        
+        // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
+        // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
+        beanContainer = new ApplicationContext("java100.app");
+        
+        DataSource ds = new DataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/studydb");
+        ds.setUsername("study");
+        ds.setPassword("1111");
+        
+        // 밖에서 만든 DataSource는 수동으로 빈 컨테이너에 추가한다.
+        beanContainer.addBean("mysqlDataSource", ds);
+        
+        // 다시 의존 객체 주입을 해야 한다.
+        beanContainer.refreshBeanFactory();
+    }
 
-		BoardController boardController = new BoardController();
-		boardController.setBoardDao(boardDao);
-		boardController.init();
-		ApplicationContext.addBean("/board", boardController);
+    void service() throws Exception {
+        // 서버 소켓 준비
+        ss = new ServerSocket(9999);
+        System.out.println("서버 실행!");
+        
+        while (true) {
+            // 클라이언트가 연결되면, 스레드에 처리를 위임한다.
+            new HttpAgent(ss.accept()).start();
+        }
+    }
 
-		RoomController roomController = new RoomController();
-		roomController.setRoomDao(roomDao);
-		roomController.init();
-		ApplicationContext.addBean("/room", roomController);
-		*/
+    private void request(String command, PrintWriter out) {
 
-	}
+        String menuName = command;
 
-	void service() throws Exception {
-		// 서버 소켓 준비
-		ss = new ServerSocket(9999);
-		System.out.println("서버 실행!");
+        int i = command.indexOf("/", 1);
+        if (i != -1) {
+            menuName = command.substring(0, i);
+        }
 
-		while (true) {
-			// 클라이언트가 연결되면, 스레드에 처리를 위임한다.
-			new HttpAgent(ss.accept()).start();
-		}
-	}
+        Object controller = beanContainer.getBean(menuName);
 
-	private void request(String command, PrintWriter out) {
+        if (controller == null && controller instanceof Controller) {
+            out.println("해당 명령을 지원하지 않습니다.");
+            return;
+        }
 
-		String menuName = command;
+        // Controller를 실행하기 전에 컨트롤러가 작업하기 편하게
+        // 클라이언트가 보낸 명령을 분석하여 객체 담아 둔다.
+        Request request = new Request(command);
+        
+        Response response = new Response();
+        response.setWriter(out);
+        
+        ((Controller)controller).execute(request, response);
+    }
 
-		int i = command.indexOf("/", 1);
-		if (i != -1) {
-			menuName = command.substring(0, i);
-		}
+    private void hello(String command, PrintWriter out) {
+        out.println("안녕하세요. 성적관리 시스템입니다.");
+        out.println("[성적관리 명령들]");
+        out.println("목록보기: /score/list");
+        out.println("상세보기: /score/view?name=이름");
+        out.println("등록: /score/add?name=이름&kor=점수&eng=점수&math=점수");
+        out.println("변경: /score/update?name=이름&kor=점수&eng=점수&math=점수");
+        out.println("삭제: /score/delete?name=이름");
+        out.println("[회원]");
+        out.println("[게시판]");
+        out.println("[강의실]");
 
-		Object controller = beanContainer.getBean(menuName);
+    }
 
-		if (controller == null && controller instanceof Controller) {
-			out.println("해당 명령을 지원하지 않습니다.");
-			return;
-		}
+    public static void main(String[] args) throws Exception {
+        App app = new App();
+        app.init();
+        app.service();
+    }
+    
+    class HttpAgent extends Thread {
+        Socket socket;
+        
+        public HttpAgent(Socket socket) {
+            this.socket = socket;
+        }
+        
+        @Override
+        public void run() {
+            try (
+                    Socket socket = this.socket; // 왜? 자동 close() 호출!
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(socket.getInputStream()));
+                    PrintWriter out = new PrintWriter(
+                            new BufferedOutputStream(socket.getOutputStream()));
+                    ) {
+                // HTTP 요청 읽기
+                // => request-line 읽기
+                // 예) GET /score/list HTTP/1.1 (CRLF)
+                String command = in.readLine().split(" ")[1];
 
-		// Controller를 실행하기 전에 컨트롤러가 작업하기 편하게
-		// 클라이언트가 보낸 명령을 분석하여 객체 담아 둔다.
-		Request request = new Request(command);
-
-		Response response = new Response();
-		response.setWriter(out);
-
-		((Controller) controller).execute(request, response);
-	}
-
-	private void hello(String command, PrintWriter out) {
-		out.println("안녕하세요. 성적관리 시스템입니다.");
-		out.println("[성적관리 명령들]");
-		out.println("목록보기: /score/list");
-		out.println("상세보기: /score/view?name=이름");
-		out.println("등록: /score/add?name=이름&kor=점수&eng=점수&math=점수");
-		out.println("변경: /score/update?name=이름&kor=점수&eng=점수&math=점수");
-		out.println("삭제: /score/delete?name=이름");
-		out.println("[회원]");
-		out.println("[게시판]");
-		out.println("[강의실]");
-
-	}
-
-	public static void main(String[] args) throws Exception {
-		App app = new App();
-		app.init();
-		app.service();
-	}
-
-	class HttpAgent extends Thread {
-		Socket socket;
-
-		public HttpAgent(Socket socket) {
-			this.socket = socket;
-		}
-
-		@Override
-		public void run() {
-			try (Socket socket = this.socket; // 왜? 자동 close() 호출!
-					BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					PrintWriter out = new PrintWriter(new BufferedOutputStream(socket.getOutputStream()));) {
-				// HTTP 요청 읽기
-				// => request-line 읽기
-				// 예) GET /score/list HTTP/1.1 (CRLF)
-				String command = in.readLine().split(" ")[1];
-
-				// => header 읽기
-				String header = null;
-				while (true) {
-					header = in.readLine();
-					if (header.equals("")) // 빈 줄을 만나면 요청 데이터의 끝!
-						break;
-				}
-
-				// HTTP 응답 출력하기
-				// => status-line 출력
-				// 예) HTTP/1.1 200 ok (CRLF)
-				out.println("HTTP/1.1 200 OK");
-
-				// => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다.
-				out.println("Content-Type:text/plain;charset=UTF-8");
-
-				// => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
-				out.println();
-
-				// 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
-				if (command.equals("/")) {
-					hello(command, out);
-				} else {
-					request(command, out);
-
-				}
-				out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
-				out.flush();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                // => header 읽기
+                String header = null;
+                while (true) {
+                    header = in.readLine();
+                    if (header.equals("")) // 빈 줄을 만나면 요청 데이터의 끝!
+                        break;
+                }
+                
+                // HTTP 응답 출력하기 
+                // => status-line 출력
+                // 예) HTTP/1.1 200 ok (CRLF)
+                out.println("HTTP/1.1 200 OK");
+                
+                // => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다. 
+                out.println("Content-Type:text/plain;charset=UTF-8");
+                
+                // => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
+                out.println();
+                
+                // 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
+                if (command.equals("/")) {
+                    hello(command, out);
+                } else {
+                    request(command, out);
+                }
+                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
+                out.flush();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

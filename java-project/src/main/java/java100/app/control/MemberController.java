@@ -3,22 +3,19 @@ package java100.app.control;
 import java.io.PrintWriter;
 import java.util.List;
 
-import java100.app.control.Controller;
-import java100.app.control.Request;
-import java100.app.control.Response;
-import java100.app.dao.BoardDao;
-import java100.app.dao.DaoException;
+import java100.app.annotation.Component;
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
+@Component("/member")  // 이 클래스의 객체를 자동 생성해야 함을 표시!
 public class MemberController implements Controller {
     
     MemberDao memberDao;
     
     public void setMemberDao(MemberDao memberDao) {
-    	this.memberDao = memberDao;
+        this.memberDao = memberDao;
     }
-    
+
     @Override
     public void destroy() {}
     
@@ -78,7 +75,7 @@ public class MemberController implements Controller {
             out.println("저장하였습니다.");
             
         } catch (Exception e) {
-        	e.printStackTrace(); // for developer
+            e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
     } 
