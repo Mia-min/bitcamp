@@ -61,6 +61,8 @@ dependencies {
    
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'
+    
+    compile 'org.springframework:spring-context:5.0.2.RELEASE'
 }
 
 // Define the main class for the application

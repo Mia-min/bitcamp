@@ -1,10 +1,3 @@
-//: ## ver 46
-//: - 자동으로 인스턴스를 생성할 클래스에 대해 애노테이션으로 표시하라!
-//: - 프로그램을 실행할 때 애노테이션으로 표시된 클래스만 인스턴스를 생성하라!
-//: - 학습목표
-//:   - 애노테이션을 활용하는 방법을 연습한다.
-//: 
-//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -14,36 +7,44 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java100.app.beans.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import java100.app.control.Controller;
 import java100.app.control.Request;
 import java100.app.control.Response;
+import java100.app.control.ScoreController;
 import java100.app.util.DataSource;
 
+@Configuration // 이 클래스가 스프링 IoC 컨테이너를 위한 설정 클래스임을 표시!
+@ComponentScan("java100.app") // @conponent 붙은 클래스가 어느 패키지에 있는지 표시!
 public class App {
 
     ServerSocket ss;
+    
+    AnnotationConfigApplicationContext iocContainer;
 
     // 빈 관리 컨테이너 객체
-    ApplicationContext beanContainer;
+//    ApplicationContext beanContainer;
     
-    void init() {
-        
-        // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
-        // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
-        beanContainer = new ApplicationContext("java100.app");
-        
+    // 스프링 IcC 컨테이너에게 getDataSource() 메서드를 호출해서
+    // 이 메서드가 리턴한 객체를 꼭! 컨테이너에 보관해달라고 표시!
+    @Bean()
+    DataSource getDataSource() {
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
         ds.setUsername("study");
         ds.setPassword("1111");
+        return ds;
+    }
+    
+    void init() {
+        iocContainer = new AnnotationConfigApplicationContext(App.class);
         
-        // 밖에서 만든 DataSource는 수동으로 빈 컨테이너에 추가한다.
-        beanContainer.addBean("mysqlDataSource", ds);
         
-        // 다시 의존 객체 주입을 해야 한다.
-        beanContainer.refreshBeanFactory();
     }
 
     void service() throws Exception {
@@ -66,7 +67,7 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Object controller = beanContainer.getBean(menuName);
+        Object controller = iocContainer.getBean(menuName);
 
         if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");
@@ -119,7 +120,7 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-                // HTTP 요청 읽기
+                // HTTP 요청 읽기 
                 // => request-line 읽기
                 // 예) GET /score/list HTTP/1.1 (CRLF)
                 String command = in.readLine().split(" ")[1];
@@ -159,7 +160,6 @@ public class App {
     }
 
 }
-
 
 
 

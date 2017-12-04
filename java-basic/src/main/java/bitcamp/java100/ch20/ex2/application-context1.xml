@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- String s1 = new String(); -->
+	<bean id="s1" class="java.lang.String" />
+	<bean name="s2" class="java.lang.String" />
+	<bean id="s3" name="s3" class="java.lang.String" />
+
+	<!-- String s4 = new String();
+	     String s5 = s4;
+	     String s6 = s4; -->
+	<!-- <bean id="s4" name="s5 s6" class="java.lang.String" /> -->
+	<!-- <bean id="s4" name="s5,s6" class="java.lang.String" /> -->
+    <bean id="s4" name="s5;s6" class="java.lang.String" />
+    
+    <bean class="java.lang.String" />
+    <bean class="java.lang.String" />
+    <bean class="java.lang.String" />
+</beans>

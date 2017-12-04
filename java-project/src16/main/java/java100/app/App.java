@@ -1,7 +1,8 @@
-//: ## ver 15
-//: - ScoreDao를 다른 타입에 대해서도 처리할 수 있도록 변경하라!
+//: ## ver 16
+//: - ArrayList에 generic을 적용하여 저장하는 타입을 지정할 수 있게 한다.
 //: - 학습목표
-//:   - 다형성의 특징 중 다형적 변수를 활용하는 방법을 연습한다.
+//:   - 제넥릭을 이용하여 클래스를 정의하는 방법
+//:   - 제네릭이 적용된 클래스를 사용하는 방법
 //: 
 //: 
 //: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
@@ -14,7 +15,6 @@
 //: ```
 package java100.app;
 
-import java.util.ArrayList;
 import java.util.Scanner;
  
 public class App {
@@ -30,9 +30,9 @@ public class App {
     }
     
     public static void main(String[] args) {
-        //제네릭Generic이 적용된 ArrayList를 사용
-        // ArrayList는 Score 타입뿐만 아니라 자바의 모든 타입의 객체에 대해서도 
-        // 사용할 수 있다.
+        
+        // 제네릭이 적용된 ArrayList를 사용하려면,
+        // ArrayList에 다루고자하는 값의 타입 정보를 알려줘야 한다.
         ArrayList<Score> list = new ArrayList<>();
         
         while (true) {
@@ -45,17 +45,12 @@ public class App {
                 break;
         }
         
-        iterator<Scroe> itorator = list.iterator();
-        
-        while(iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
-        
         for (int i = 0; i < list.size(); i++) {
-        	//ArrayList에 어떤 값을 저장할 지 알려줬기 때문에
-        	//값을 꺼낼때 따로 형 변환 할 필요가 없다.
+            // ArrayList에 어떤 값을 저장할 지 알려줬기 때문에
+            // 값을 꺼낼 때 따로 형변환할 필요가 없다.
+            //
             //((Score)list.get(i)).print();
-        	list.get(i)).print();
+            list.get(i).print();
         }
     }
 }
