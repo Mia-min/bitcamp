@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 팩토리 메서드를 호출하여 객체 생성하기   
+         class="공장메서드를 갖고 있는 클래스명"
+         factory-method="스태틱으로 선언된 공장메서드 이름"
+         id="공장 메서드가 리턴한 값을 저장할 때 사용할 이름"
+         
+         => 스프링 IoC 컨테이너에 저장되는 객체는 CarFactory가 아니라, 
+            CarFactory.createCar() 메서드가 리턴한 값이다.
+    -->
+    <bean id="e1" class="bitcamp.java100.ch20.ex7.Engine">
+         <property name="name" value="비트엔진"/>
+         <property name="valve" value="16"/>
+         <property name="cc" value="1980"/>
+    </bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
