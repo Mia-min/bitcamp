@@ -41,7 +41,7 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
     
     // https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl
-    compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     
     // Reflection 작업을 도와주는 라이브러리
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
