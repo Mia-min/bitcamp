@@ -1,18 +1,19 @@
+// 상속 적용 전 - CalculatorA 테스트하기
+//
 package bitcamp.java100.ch07.ex3.before;
 
 public class Test1 {
 
-	public static void main(String[] args) {
-		CalculatorA cal = new CalculatorA();
-		cal.plus(10);
-		cal.plus(20);
-		cal.minus(7);
-		cal.multiple(2);
-		cal.devide(3);
-		
-		System.out.println(cal.result);
-
-
-	}
+    public static void main(String[] args) {
+        CalculatorA calc = new CalculatorA();
+        calc.plus(10);
+        calc.plus(20);
+        calc.minus(7);
+        calc.multiple(2);
+        calc.divide(3);
+        
+        System.out.println(calc.result);
+        
+    }
 
 }

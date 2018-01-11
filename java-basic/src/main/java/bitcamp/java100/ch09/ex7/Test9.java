@@ -1,87 +1,110 @@
+// 컬렉션 API - HashMap III
 package bitcamp.java100.ch09.ex7;
 
 import java.util.HashMap;
 
 public class Test9 {
+    
+    static class MyKey {
+        String id;
+        String pwd;
+        
+        public MyKey(String id, String pwd) {
+            this.id = id;
+            this.pwd = pwd;
+        }
 
-	static class Mykey {
-		String id;
-		String pwd;
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((id == null) ? 0 : id.hashCode());
+            result = prime * result + ((pwd == null) ? 0 : pwd.hashCode());
+            return result;
+        }
 
-		public Mykey(String id, String pwd) {
-			this.id = id;
-			this.pwd = pwd;
-		}
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            MyKey other = (MyKey) obj;
+            if (id == null) {
+                if (other.id != null)
+                    return false;
+            } else if (!id.equals(other.id))
+                return false;
+            if (pwd == null) {
+                if (other.pwd != null)
+                    return false;
+            } else if (!pwd.equals(other.pwd))
+                return false;
+            return true;
+        }
+    }
+    
+    static class Contact {
+        String name;
+        String email;
+        String tel;
+        
+        public Contact(String name, String email, String tel) {
+            this.name = name;
+            this.email = email;
+            this.tel = tel;
+        }
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((id == null) ? 0 : id.hashCode());
-			result = prime * result + ((pwd == null) ? 0 : pwd.hashCode());
-			return result;
-		}
+        @Override
+        public String toString() {
+            return "Contact [name=" + name + ", email=" + email + ", tel=" + tel + "]";
+        }
+    }
+    
+    
+    public static void main(String[] args) {
+        
+        HashMap<MyKey,Contact> map = new HashMap<>();
+        
+        Contact c1 = new Contact("홍길동", "hong@test.com", "1111-1111");
+        MyKey k1 = new MyKey("aaaa", "1111");
+        
+        // 값을 저장할 때 MyKey를 사용하여 저장하고,
+        map.put(k1, c1);
+        
+        // 저장할 때 사용한 같은 MyKey 객체를 사용하여 값을 꺼낸다.
+        System.out.println(map.get(k1));
+        
+        // 내용이 같은 다른 MyKey 객체를 사용한다면?
+        // => 이 예제의 MyKey는 내용물이 같을 때 같은 해시 값을 리턴하고,
+        //    equals()의 리턴 값이 true가 되도록 오버라이딩 했기 때문에
+        //    비록 MyKey 인스턴스가 다르더라도 값을 찾을 수 있을 것이다.
+        MyKey k2 = new MyKey("aaaa", "1111");
+        System.out.println(map.get(k2));
+        
+        // 결론!
+        // - String 클래스와 Wrapper 클래스(Byte, Short, Integer, ...등)들은
+        //   Object로부터 상속 받은 hashCode()와 equals()를 오버라이딩 했기 때문에
+        //   HashMap이나 Hashtable의 key 클래스로 자주 사용한다.
+        // 
+    }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Mykey other = (Mykey) obj;
-			if (id == null) {
-				if (other.id != null)
-					return false;
-			} else if (!id.equals(other.id))
-				return false;
-			if (pwd == null) {
-				if (other.pwd != null)
-					return false;
-			} else if (!pwd.equals(other.pwd))
-				return false;
-			return true;
-		}
-		
-		
-		
-	}
-
-	static class Contact {
-		String name;
-		String email;
-		String tel;
-
-		public Contact(String name, String email, String tel) {
-			this.name = name;
-			this.email = email;
-			this.tel = tel;
-		}
-	}
-
-	public static void main(String[] args) {
-		// KEY-VALUE 한 쌍으로 이루어진 값을 보관할 때 사용한다.
-		// 키는 값을 저장하고 찾을 때 사용한다.
-		// value는 보관하고자 하는 값을 말한다.
-		// hashmap객체를 생성할 때 키의 타입과 value의 타입 이름을 넘겨야한다.
-		HashMap<Mykey,Contact> map = new HashMap<>();
-
-		Contact c1 = new Contact("홍길동", "hong@aaaa.aaa", "1111-1111");
-		Mykey k1 = new Mykey("aaa", "1111");
-		
-		map.put(k1, c1);
-		
-		
-		System.out.println(map.get(k1));
-
-		Mykey k2 = new Mykey("aaa", "1111");
-		System.out.println(map.get(k2));
-
-		// 해쉬셋이 데이터를 저장하는 원리 , 해쉬셋이 중복 데이터임을 판단하는 기준
-		// 해쉬샛은 집합의 기능을 구현한 것이기 때문에 중복 데이터를 저장하지 않는다.
-		// 중복데이터의 기준은? 해쉬코드의 리턴값이 같다. 이퀄스로 비교했을 때 리턴 값이 트루이다.
-		// 그러나 오브젝트로부터 그냥 상속받은 해쉬코드는 인스턴스가 다르면 무조건 다른 해쉬값을 리턴한다.
-
-	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

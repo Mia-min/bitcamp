@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- 팩토리 메서드를 호출하여 객체 생성하기   
+    <!-- 스태틱 팩토리 메서드를 호출하여 객체 생성하기   
          class="공장메서드를 갖고 있는 클래스명"
          factory-method="스태틱으로 선언된 공장메서드 이름"
          id="공장 메서드가 리턴한 값을 저장할 때 사용할 이름"

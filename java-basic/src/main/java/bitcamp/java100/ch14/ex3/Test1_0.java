@@ -30,7 +30,6 @@ public class Test1_0 {
         out.close();
         
         System.out.println("출력을 완료했습니다.");
-        System.out.print(s.getKor());
     }
 }
 

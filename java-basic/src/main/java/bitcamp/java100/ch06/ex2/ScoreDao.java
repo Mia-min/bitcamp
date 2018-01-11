@@ -1,12 +1,11 @@
 package bitcamp.java100.ch06.ex2;
 
-import java.io.Console;
-
 public class ScoreDao {
-	static Score[] scores = new Score[10000];
+    static Score[] scores = new Score[10000];
     static int cursor = 0;
+    
     static void add(Score score) {
-        if (cursor == scores.length ) {
+        if (cursor == scores.length) {
             System.err.println("최대 저장 개수를 초과하였습니다.");
             return;
         }

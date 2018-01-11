@@ -1,7 +1,9 @@
+// 역할: 
+// => 한 개의 값을 저장.
+// => 다음 상자의 위치를 가리킨다.
 package bitcamp.java100.ch09.ex2;
 
-//박스라는 클래스를 만들어준다.
 public class Box {
-		Object value;
-		Box next;
+    Object value;
+    Box next;
 }

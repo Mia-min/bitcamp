@@ -1,4 +1,4 @@
-// Spring IoC(Inversion of Control) 컨테이너 - 팩토리 메서드를 사용한 객체 생성
+// Spring IoC(Inversion of Control) 컨테이너 - 팩토리 메서드를 사용한 객체 생성 II
 // 
 package bitcamp.java100.ch20.ex6;
 

@@ -8,11 +8,10 @@ public class ScoreView {
         
         score.name = console.readLine("이름? ");
         score.kor = Integer.parseInt(console.readLine("국어 점수? "));
-        score.eng =  Integer.parseInt(console.readLine("영어 점수? "));
-        score.math =  Integer.parseInt(console.readLine("수학 점수? "));
+        score.eng = Integer.parseInt(console.readLine("영어 점수? "));
+        score.math = Integer.parseInt(console.readLine("수학 점수? "));
         score.sum = score.kor + score.eng + score.math;
         score.aver = score.sum / 3f;
-        
     }
     
     static void print(Score score) {
@@ -24,5 +23,4 @@ public class ScoreView {
                 score.sum,
                 score.aver);
     }
-    
 }

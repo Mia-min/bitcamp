@@ -23,7 +23,6 @@ public class Test1_3 {
         out.close();
         
         System.out.println("출력을 완료했습니다.");
-        
     }
 }
 

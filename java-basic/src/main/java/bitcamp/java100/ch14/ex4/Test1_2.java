@@ -8,12 +8,16 @@ import java.io.ObjectOutputStream;
 public class Test1_2 {
     public static void main(String[] args) throws Exception {
         
-        Score3 s = new Score3("홍길동", 800, 900, 1000);
-
-        ObjectOutputStream out = new ObjectOutputStream(
-                                    new FileOutputStream("test1.dat"));
+        // music 필드 추가 전
+        //Score3 s = new Score3("홍길동", 800, 900, 1000);
         
-        out.writeObject(s); // 출력 OK!
+        // music 필드 추가 후 
+        Score3 s = new Score3("홍길동", 800, 900, 1000, 900);
+        
+        ObjectOutputStream out = new ObjectOutputStream(
+                                    new FileOutputStream("test2_new.dat"));
+
+        out.writeObject(s);
         
         out.close();
         
